@@ -1,6 +1,3 @@
-# eco_guide_simple.py
-# Эко-справочник — без библиотек
-
 import os
 
 DATA_FILE = "eco_data.txt"
