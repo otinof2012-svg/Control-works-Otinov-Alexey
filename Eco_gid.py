@@ -20,3 +20,53 @@ DEFAULT_DATA = [
 ]
 
 
+def load_data():
+    """Загружает данные из текстового файла"""
+    data = {}
+
+    if os.path.exists(DATA_FILE):
+        with open(DATA_FILE, "r", encoding="utf-8") as f:
+            for line in f:
+                line = line.strip()
+                if line and "|" in line:
+                    name, instruction = line.split("|", 1)
+                    data[name.lower()] = instruction
+    else:
+        # Создаём файл с начальными данными
+        for item in DEFAULT_DATA:
+            name, instruction = item.split("|", 1)
+            data[name.lower()] = instruction
+        save_data(data)
+
+    return data
+
+
+def save_data(data):
+    """Сохраняет данные в текстовый файл"""
+    with open(DATA_FILE, "w", encoding="utf-8") as f:
+        for name, instruction in data.items():
+            f.write(f"{name}|{instruction}\n")
+
+
+def search(data):
+    """Поиск предмета"""
+    item = input("\nЧто хотите утилизировать? ").lower().strip()
+
+    if not item:
+        print("❌ Введите название!")
+        return
+
+    if item in data:
+        print("\n" + "=" * 50)
+        print(f"📦 {item.upper()}")
+        print("=" * 50)
+        print(data[item])
+        print("=" * 50)
+    else:
+        print(f"\n❌ Не знаю предмет '{item}'")
+        add = input("Хотите добавить его в базу? (да/нет): ").lower()
+        if add == "да" or add == "yes" or add == "y":
+            instruction = input("Куда и как выбрасывать? ")
+            data[item] = instruction
+            save_data(data)
+            print(f"✅ Предмет '{item}' добавлен!")
