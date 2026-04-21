@@ -70,3 +70,36 @@ def search(data):
             data[item] = instruction
             save_data(data)
             print(f"✅ Предмет '{item}' добавлен!")
+
+def show_all(data):
+    """Показывает все предметы в базе"""
+    if not data:
+        print("\n📋 База пуста!")
+        return
+
+    print("\n" + "=" * 50)
+    print("📋 ВСЕ ПРЕДМЕТЫ В БАЗЕ:")
+    print("=" * 50)
+
+    for name in sorted(data.keys()):
+        print(f"   • {name}")
+
+    print("=" * 50)
+    print(f"Всего: {len(data)} предметов")
+
+
+def delete_item(data):
+    """Удаляет предмет из базы"""
+    if not data:
+        print("\n📋 База пуста!")
+        return
+
+    show_all(data)
+    item = input("\nВведите название для удаления: ").lower().strip()
+
+    if item in data:
+        del data[item]
+        save_data(data)
+        print(f"✅ Предмет '{item}' удалён!")
+    else:
+        print(f"❌ Предмет '{item}' не найден")
